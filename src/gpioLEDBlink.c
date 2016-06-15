@@ -36,7 +36,7 @@
 * Comments      :
 *END*-----------------------------------------------------------*/
 int main() {
-    int pinOut = 23;
+    int pinOut = 24;
     int pinIn = 12;
 
     ledInit(pinOut);
