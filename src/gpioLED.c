@@ -55,17 +55,18 @@ static void GPIO1_ModuleClkConfig(void){
 * The 'offsetAddr' and 'padConfValue' can be obtained from macros defined
 * in the file 'include/armv7a/am335x/pin_mux.h'.\n
 *END*-----------------------------------------------------------*/
+/*static void GPIOPinMuxSetup(unsigned int offsetAddr, unsigned int padConfValue){
+    HWREG(SOC_CONTROL_REGS + offsetAddr) = (padConfValue);
+}*/
+
+
 static void GPIOPinMuxSetup(unsigned int offsetAddr, unsigned int padConfValue){
     HWREG(SOC_CONTROL_REGS + offsetAddr) = (padConfValue);
-}
-
-
-void GPIOPinMuxSetupInput(unsigned int offsetAddr, unsigned int padConfValue){
-	  HWREG(SOC_CONTROL_REGS + offsetAddr) = (padConfValue);
+    HWREG(SOC_CONTROL_REGS + offsetAddr) |= bit_5;
     HWREG(SOC_CONTROL_REGS + offsetAddr) &= ~(bit_4);
-    HWREG(SOC_CONTROL_REGS + offsetAddr) &= ~(bit_5);
-    HWREG(SOC_CONTROL_REGS + offsetAddr) |= bit_6;
+    HWREG(SOC_CONTROL_REGS + offsetAddr) &= ~(bit_3);
 }
+
 /*FUNCTION*-------------------------------------------------------
 *
 * Function Name : SPIOModuleEnable
@@ -136,7 +137,7 @@ static void GPIODirModeSet(unsigned int baseAdd,
 * - GPIO_PIN_LOW - indicating to drive a logic LOW(logic 0) on the pin.
 * - GPIO_PIN_HIGH - indicating to drive a logic HIGH(logic 1) on the pin.
 *END*-----------------------------------------------------------*/
-static void GPIOPinWrite(unsigned int baseAdd,
+void GPIOPinWrite(unsigned int baseAdd,
                           unsigned int pinNumber,
                           unsigned int pinValue) {
 
@@ -154,7 +155,7 @@ static void GPIOPinWrite(unsigned int baseAdd,
 *END*-----------------------------------------------------------*/
 
 
-int ledInit(int nPin){
+int ledInit(int nPin, int direcao){
     int num;
     /* Enabling functional clocks for GPIO1 instance. */
     GPIO1_ModuleClkConfig();
@@ -199,69 +200,20 @@ int ledInit(int nPin){
     /* Setting the GPIO pin as an output pin. */
     GPIODirModeSet(GPIO_INSTANCE_ADDRESS,
               GPIO_INSTANCE_PIN_NUMBER(nPin),
-              DIR_OUTPUT);
+              direcao);
 
     return(0);
 }
 
-int input(int nPin){
-    int num;
-    /* Enabling functional clocks for GPIO1 instance. */
-    GPIO1_ModuleClkConfig();
-
-    if ((nPin >= GPIO_0 && nPin <= GPIO_7) || (nPin >= GPIO_12 && nPin <= GPIO_15)) {
-      GPIOPinMuxSetupInput(CONTROL_CONF_GPMC_AD(nPin), CONTROL_CONF_MUXMODE(MUX_7));
-    }
-    else if (nPin >= GPIO_16 && nPin <= GPIO_27) {
-      num = nPin - GPIO_16;
-      GPIOPinMuxSetupInput(CONTROL_CONF_GPMC_A(num), CONTROL_CONF_MUXMODE(MUX_7));
-    }
-    else if (nPin >= GPIO_29 && nPin <= GPIO_31) {
-      num = nPin - GPIO_29;
-      GPIOPinMuxSetupInput(CONTROL_CONF_GPMC_CSN(num), CONTROL_CONF_MUXMODE(MUX_7));
-    }
-    else {
-      switch (nPin) {
-        case GPIO_8:
-          GPIOPinMuxSetupInput(CONTROL_CONF_UART_CTSN(0), CONTROL_CONF_MUXMODE(MUX_7));
-          break;
-        case GPIO_9:
-          GPIOPinMuxSetupInput(CONTROL_CONF_UART_RTSN(0), CONTROL_CONF_MUXMODE(MUX_7));
-          break;
-        case GPIO_10:
-          GPIOPinMuxSetupInput(CONTROL_CONF_UART_RXD(0), CONTROL_CONF_MUXMODE(MUX_7));
-          break;
-        case GPIO_11:
-          GPIOPinMuxSetupInput(CONTROL_CONF_UART_TXD(0), CONTROL_CONF_MUXMODE(MUX_7));
-          break;
-        case GPIO_28:
-          GPIOPinMuxSetupInput(CONTROL_CONF_GPMC_BE1N, CONTROL_CONF_MUXMODE(MUX_7));
-          break;
-      }
-    }
-
-    /* Enabling the GPIO module. */
-    GPIOModuleEnable(GPIO_INSTANCE_ADDRESS);
-
-    /* Resetting the GPIO module. */
-    GPIOModuleReset(GPIO_INSTANCE_ADDRESS);
-
-    //Para input
-    GPIODirModeSet(GPIO_INSTANCE_ADDRESS,
-              GPIO_INSTANCE_PIN_NUMBER(nPin),
-              DIR_INPUT);
-
-    return(0);
-}
 
 void ledHigh(int nPin){
-        /* Driving a logic HIGH on the GPIO pin. */
-        GPIOPinWrite(GPIO_INSTANCE_ADDRESS,
-                GPIO_INSTANCE_PIN_NUMBER(nPin),
-                PIN_HIGH);
+  GPIOPinWrite(GPIO_INSTANCE_ADDRESS,
+  GPIO_INSTANCE_PIN_NUMBER(nPin),
+  PIN_HIGH);
 }
+
 void ledLow(int nPin){
   GPIOPinWrite(GPIO_INSTANCE_ADDRESS,
-          GPIO_INSTANCE_PIN_NUMBER(nPin),
-          PIN_LOW);
+  GPIO_INSTANCE_PIN_NUMBER(nPin),
+  PIN_LOW);
 }

@@ -20,7 +20,7 @@ DEVICE=am335x
 #
 # The application directory and name
 #
-APPNAME=gpioLedBlink_Felipe
+APPNAME=Felipe
 SRC=src
 
 #

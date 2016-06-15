@@ -36,37 +36,23 @@
 * Comments      :
 *END*-----------------------------------------------------------*/
 int main() {
-    int pinOut = 23;
     int pinIn = 12;
+    int pinOut = 23;
 
-    ledInit(pinOut);
-    input(pinIn);
+    ledInit(pinIn, DIR_INPUT);
+    ledInit(pinOut, DIR_OUTPUT);
 
     while(TRUE){
 
   		if(butonHigh(pinIn)){ //Entrada do PIN para INPUT
-        ledHigh(pinOut);  //Entrada do PIN para OUTPUT
+        ledHigh(pinOut);
   		}else{
-  			ledLow(pinOut);
+        ledLow(pinOut);
   		}
-
-  //        Delay(MSEG);
-      }
+    }
 
     return(0);
 }
-
-/*FUNCTION*-------------------------------------------------------
-*
-* Function Name : Delay
-* Comments      :
-*END*-----------------------------------------------------------
-static void Delay(volatile unsigned int count){
-    while(count--);
-      asm("   nop");
-}*/
-
-
 
 int butonHigh(int nPin){
 	int *up = (int *) (GPIO_INSTANCE_ADDRESS + GPIO_DATAIN);

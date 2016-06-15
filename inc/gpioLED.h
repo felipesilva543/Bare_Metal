@@ -28,9 +28,9 @@
 #include "hw_types.h"
 
 
-#define bit_6                    (0x00000020)
-#define bit_5                    (0x00000010)
-#define bit_4                    (0x00000008)
+#define bit_5                    (0x00000020)
+#define bit_4                    (0x00000010)
+#define bit_3                    (0x00000008)
 
 /* This is used to configure a GPIO pin as an input pin. */
 #define DIR_INPUT                1
@@ -49,12 +49,12 @@
 #define TOGGLE                          (0x01u)
 
 
-int input(int nPin);
-int ledInit(int nPin);
+void GPIOPinWrite(unsigned int baseAdd,unsigned int pinNumber, unsigned int pinValue);
+int ledInit(int nPin, int direcao);
+
 int butonHigh(int nPin);
 void ledHigh(int nPin);
 void ledLow(int nPin);
-
 
 
 typedef enum Pins pins;
