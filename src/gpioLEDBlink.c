@@ -36,8 +36,8 @@
 * Comments      :
 *END*-----------------------------------------------------------*/
 int main() {
-    int pinIn = 12;
-    int pinOut = 23;
+    int pinIn = 15;
+    int pinOut = 12;
 
     ledInit(pinIn, DIR_INPUT);
     ledInit(pinOut, DIR_OUTPUT);
