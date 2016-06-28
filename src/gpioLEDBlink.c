@@ -44,7 +44,7 @@ int main() {
 
     while(TRUE){
 
-  		if(butonHigh(pinIn)){ //Entrada do PIN para INPUT
+  		if(butonHigh(pinIn)){ 
         ledHigh(pinOut);
   		}else{
         ledLow(pinOut);

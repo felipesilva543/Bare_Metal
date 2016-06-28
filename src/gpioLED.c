@@ -154,7 +154,6 @@ void GPIOPinWrite(unsigned int baseAdd,
 * Comments      :
 *END*-----------------------------------------------------------*/
 
-
 int ledInit(int nPin, int direcao){
     int num;
     /* Enabling functional clocks for GPIO1 instance. */

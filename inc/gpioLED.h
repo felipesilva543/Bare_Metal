@@ -27,7 +27,6 @@
 #include "hw_cm_per.h"
 #include "hw_types.h"
 
-
 #define bit_5                    (0x00000020)
 #define bit_4                    (0x00000010)
 #define bit_3                    (0x00000008)
@@ -36,10 +35,8 @@
 #define DIR_INPUT                1
 /* This is used to configure a GPIO pin as an output pin.*/
 #define DIR_OUTPUT               0
-
 /* This is used to write a logic 0 to a pin.*/
 #define PIN_LOW                  0
-
 /* This is used to write a logic 1 to a pin.*/
 #define PIN_HIGH                 1
 
